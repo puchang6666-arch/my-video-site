@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全能视频站 · 终极版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+            transition: all 0.25s ease;
+        }
+
+        :root {
+            --bg: #f9f9f9;
+            --card: #fff;
+            --text: #222;
+            --sub: #666;
+            --main: #ff4444;
+            --border: #eee;
+            --bar: #fff;
+        }
+
+        .dark {
+            --bg: #121212;
+            --card: #1e1e1e;
+            --text: #f0f0f0;
+            --sub: #aaa;
+            --main: #ff4444;
+            --border: #333;
+            --bar: #1e1e1e;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        /* 登录弹窗 */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .modal-box {
+            background: var(--card);
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .modal input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .modal button {
+            width: 100%;
+            padding: 10px;
+            background: var(--main);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        /* 导航 */
+        header {
+            background: var(--bar);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--main);
+            cursor: pointer;
+        }
+
+        .search {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 15px;
+        }
+
+        .search input {
+            width: 100%;
+            padding: 8px 14px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: var(--bg);
+            color: var(--text);
+            outline: none;
+        }
+
+        .nav-menu button {
+            background: none;
+            border: none;
+            color: var(--text);
+            margin-left: 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* 分类 */
+        .category {
+            max-width: 1200px;
+            margin: 15px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .category button {
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: var(--card);
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        .category .active {
+            background: var(--main);
+            color: white;
+            border-color: var(--main);
+        }
+
+        /* 容器 */
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        /* 播放器 + 弹幕 */
+        .player-box {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .player-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .danmaku {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .danmaku-item {
+            position: absolute;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #000;
+            white-space: nowrap;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+        }
+
+        .tool-bar {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tool-bar button, .tool-bar input {
+            padding: 6px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .tool-bar button {
+            cursor: pointer;
+        }
+
+        /* 视频网格 */
+        .video-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .video-card {
+            background: var(--card);
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .video-card img {
+            width: 100%;
+            height: 105px;
+            object-fit: cover;
+        }
+
+        .video-info {
+            padding: 8px;
+        }
+
+        .video-title {
+            font-size: 14px;
+            line-height: 1.4;
+            height: 40px;
+            overflow: hidden;
+        }
+
+        /* 评论 */
+        .comment-box {
+            background: var(--card);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--bg);
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+
+        .comment-item {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* 页面通用 */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* 个人中心 */
+        .user-info {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        /* 上传 */
+        .upload-box {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .upload-box input {
+            width: 100%;
+            margin: 8px 0;
+            padding: 8px;
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--card);
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+            font-size: 14px;
+            color: var(--sub);
+        }
+    </style>
+</head>
+<body>
+
+<!-- 登录弹窗 -->
+<div id="loginModal" class="modal">
+    <div class="modal-box">
+        <h3>登录 / 注册</h3>
+        <input id="loginUser" placeholder="用户名">
+        <input id="loginPwd" type="password" placeholder="密码">
+        <button onclick="login()">登录</button>
+        <button onclick="register()" style="background:#666;">注册</button>
+    </div>
+</div>
+
+<!-- 导航 -->
+<header>
+    <div class="nav">
+        <div class="logo" onclick="goPage('home')">📺 全能视频站</div>
+        <div class="search">
+            <input id="searchInput" placeholder="搜索视频" oninput="doSearch()">
+        </div>
+        <div class="nav-menu">
+            <button onclick="goPage('home')">首页</button>
+            <button onclick="goPage('user')">个人中心</button>
+            <button onclick="goPage('upload')">投稿</button>
+            <button onclick="toggleDark()">暗黑模式</button>
+            <button onclick="logout()" style="color:var(--main)">退出登录</button>
+        </div>
+    </div>
+</header>
+
+<!-- 分类 -->
+<div class="category">
+    <button class="active" onclick="filterCategory('全部')">全部</button>
+    <button onclick="filterCategory('电影')">电影</button>
+    <button onclick="filterCategory('番剧')">番剧</button>
+    <button onclick="filterCategory('游戏')">游戏</button>
+    <button onclick="filterCategory('生活')">生活</button>
+</div>
+
+<div class="container">
+    <!-- 首页 -->
+    <div id="pageHome" class="page active">
+        <div class="player-box">
+            <div class="player-wrapper">
+                <div class="danmaku" id="danmakuArea"></div>
+                <video id="mainVideo" controls poster="https://picsum.photos/800/450"></video>
+            </div>
+            <h3 id="currentTitle" style="margin:12px 0;">请选择视频播放</h3>
+            
+            <div class="tool-bar">
+                <button id="likeBtn" onclick="likeVideo()">👍 点赞</button>
+                <button onclick="favoriteVideo()">⭐ 收藏</button>
+                <input id="danInput" placeholder="发个弹幕~" style="flex:1">
+                <button onclick="sendDan()">发送弹幕</button>
+            </div>
+
+            <div class="comment-box">
+                <h4>评论区</h4>
+                <input class="comment-input" id="commentInput" placeholder="发表评论">
+                <button onclick="sendComment()">发布评论</button>
+                <div id="commentList" style="margin-top:10px;"></div>
+            </div>
+        </div>
+
+        <h3 style="margin-bottom:10px;">🎞 推荐视频</h3>
+        <div class="video-list" id="videoList"></div>
+    </div>
+
+    <!-- 个人中心 -->
+    <div id="pageUser" class="page">
+        <div class="user-info">
+            <h2>个人中心</h2>
+            <p>用户名：<span id="showUsername"></span></p>
+            <p style="margin:10px 0">管理员：<span id="isAdmin"></span></p>
+        </div>
+
+        <h3>我的收藏</h3>
+        <div class="video-list" id="myFavList"></div>
+
+        <h3>观看历史</h3>
+        <div class="video-list" id="myHistoryList"></div>
+    </div>
+
+    <!-- 投稿 -->
+    <div id="pageUpload" class="page">
+        <div class="upload-box">
+            <h2>投稿视频</h2>
+            <input id="upTitle" placeholder="视频标题">
+            <input id="upType" placeholder="分类：电影/番剧/游戏/生活">
+            <input id="upCover" placeholder="封面图片URL">
+            <input id="upUrl" placeholder="视频MP4地址">
+            <button onclick="uploadVideo()" style="margin-top:10px">提交投稿</button>
+        </div>
+    </div>
+</div>
+
+<footer>全能视频站 · 终极完整版 © 2025 本地学习版</footer>
+
+<script>
+    // ======================================
+    // 数据中心
+    // ======================================
+    let user = JSON.parse(localStorage.getItem("currentUser")) || null;
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+    let videos = JSON.parse(localStorage.getItem("videos")) || [
+        { id:1, title:"4K风景大片", type:"电影", cover:"https://picsum.photos/400/225?1", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
+        { id:2, title:"动漫新番推荐", type:"番剧", cover:"https://picsum.photos/400/225?2", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
+        { id:3, title:"游戏攻略解说", type:"游戏", cover:"https://picsum.photos/400/225?3", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
+        { id:4, title:"美食制作教程", type:"生活", cover:"https://picsum.photos/400/225?4", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
+    ];
+
+    let currentVideo = null;
+    let danmakuTimer = null;
+
+    // ======================================
+    // 登录 / 注册
+    // ======================================
+    function login() {
+        let u = document.getElementById("loginUser").value;
+        let p = document.getElementById("loginPwd").value;
+        let find = users.find(x=>x.user===u&&x.pwd===p);
+        if(!find){alert("账号或密码错误");return;}
+        user = find;
+        localStorage.setItem("currentUser",JSON.stringify(user));
+        document.getElementById("loginModal").style.display="none";
+        refreshUser();
+    }
+
+    function register(){
+        let u = document.getElementById("loginUser").value;
+        let p = document.getElementById("loginPwd").value;
+        if(users.find(x=>x.user===u)){alert("用户名已存在");return;}
+        let newUser = {user:u,pwd:p,admin:u==="admin"};
+        users.push(newUser);
+        localStorage.setItem("users",JSON.stringify(users));
+        alert("注册成功！请登录");
+    }
+
+    function logout(){
+        user=null;
+        localStorage.removeItem("currentUser");
+        location.reload();
+    }
+
+    function refreshUser(){
+        if(!user) return;
+        document.getElementById("showUsername").innerText=user.user;
+        document.getElementById("isAdmin").innerText=user.admin?"是":"否";
+    }
+
+    // ======================================
+    // 页面切换
+    // ======================================
+    function goPage(p){
+        document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+        document.getElementById("page"+p.charAt(0).toUpperCase()+p.slice(1)).classList.add("active");
+        if(p==="user"){renderUserPage();}
+    }
+
+    // ======================================
+    // 视频渲染
+    // ======================================
+    function render(list=videos){
+        let box = document.getElementById("videoList");
+        box.innerHTML="";
+        list.forEach(v=>{
+            let card=document.createElement("div");
+            card.className="video-card";
+            card.innerHTML=`<img src="${v.cover}"><div class="video-info"><div class="video-title">${v.title}</div></div>`;
+            card.onclick=()=>playVideo(v);
+            box.appendChild(card);
+        });
+    }
+
+    // ======================================
+    // 播放视频 + 进度记忆 + 弹幕
+    // ======================================
+    function playVideo(v){
+        currentVideo=v;
+        let video=document.getElementById("mainVideo");
+        video.src=v.url;
+        document.getElementById("currentTitle").innerText=v.title;
+        
+        // 进度记忆
+        let progress=JSON.parse(localStorage.getItem("progress_"+v.id))||0;
+        video.currentTime=progress;
+        
+        // 保存进度
+        video.ontimeupdate=()=>{
+            localStorage.setItem("progress_"+v.id,video.currentTime);
+        };
+        
+        // 弹幕
+        clearInterval(danmakuTimer);
+        startDanmaku();
+        
+        // 评论
+        renderComment();
+        video.play();
+    }
+
+    // ======================================
+    // 弹幕系统
+    // ======================================
+    function sendDan(){
+        if(!currentVideo||!user){alert("请登录后发送弹幕");return;}
+        let txt=document.getElementById("danInput").value.trim();
+        if(!txt)return;
+        let list=JSON.parse(localStorage.getItem("dan_"+currentVideo.id))||[];
+        list.push({txt,time:document.getElementById("mainVideo").currentTime});
+        localStorage.setItem("dan_"+currentVideo.id,JSON.stringify(list));
+        document.getElementById("danInput").value="";
+    }
+
+    function startDanmaku(){
+        let area=document.getElementById("danmakuArea");
+        area.innerHTML="";
+        let list=JSON.parse(localStorage.getItem("dan_"+currentVideo.id))||[];
+        let video=document.getElementById("mainVideo");
+        
+        danmakuTimer=setInterval(()=>{
+            let t=video.currentTime;
+            list.forEach(d=>{
+                if(Math.abs(d.time-t)<0.3){
+                    let div=document.createElement("div");
+                    div.className="danmaku-item";
+                    div.innerText=d.txt;
+                    div.style.top=Math.random()*80+"%";
+                    div.style.left="100%";
+                    area.appendChild(div);
+                    setTimeout(()=>area.removeChild(div),6000);
+                }
+            });
+        },200);
+    }
+
+    // ======================================
+    // 点赞 / 收藏 / 历史
+    // ======================================
+    function likeVideo(){
+        if(!currentVideo||!user)return;
+        let likes=JSON.parse(localStorage.getItem("likes"))||[];
+        let key=user.user+"_"+currentVideo.id;
+        if(likes.includes(key)){alert("已点赞");return;}
+        likes.push(key);
+        localStorage.setItem("likes",JSON.stringify(likes));
+        document.getElementById("likeBtn").innerText="👍 已点赞";
+    }
+
+    function favoriteVideo(){
+        if(!currentVideo||!user){alert("请登录");return;}
+        let favs=JSON.parse(localStorage.getItem("favs"))||[];
+        let key=user.user+"_"+currentVideo.id;
+        if(favs.includes(key)){alert("已收藏");return;}
+        favs.push(key);
+        localStorage.setItem("favs",JSON.stringify(favs));
+        alert("收藏成功！");
+    }
+
+    // ======================================
+    // 评论
+    // ======================================
+    function sendComment(){
+        if(!currentVideo||!user)return;
+        let txt=document.getElementById("commentInput").value.trim();
+        if(!txt)return;
+        let list=JSON.parse(localStorage.getItem("comment_"+currentVideo.id))||[];
+        list.push({user:user.user,content:txt});
+        localStorage.setItem("comment_"+currentVideo.id,JSON.stringify(list));
+        document.getElementById("commentInput").value="";
+        renderComment();
+    }
+
+    function renderComment(){
+        let list=JSON.parse(localStorage.getItem("comment_"+currentVideo.id))||[];
+        let box=document.getElementById("commentList");
+        box.innerHTML=list.map(c=>`<div class="comment-item"><b>${c.user}</b>：${c.content}</div>`).join("");
+    }
+
+    // ======================================
+    // 分类 / 搜索
+    // ======================================
+    function filterCategory(t){
+        document.querySelectorAll(".category button").forEach(b=>b.classList.remove("active"));
+        event.target.classList.add("active");
+        render(t==="全部"?videos:videos.filter(x=>x.type===t));
+    }
+
+    function doSearch(){
+        let kw=document.getElementById("searchInput").value.toLowerCase();
+        render(videos.filter(v=>v.title.toLowerCase().includes(kw)));
+    }
+
+    // ======================================
+    // 个人中心
+    // ======================================
+    function renderUserPage(){
+        // 收藏
+        let favs=JSON.parse(localStorage.getItem("favs"))||[];
+        let myFav=videos.filter(v=>favs.includes(user.user+"_"+v.id));
+        renderList(myFav,"myFavList");
+
+        // 历史
+        let history=JSON.parse(localStorage.getItem("history"))||[];
+        renderList(history,"myHistoryList");
+    }
+
+    function renderList(data,id){
+        let box=document.getElementById(id);
+        box.innerHTML="";
+        data.forEach(v=>{
+            let card=document.createElement("div");
+            card.className="video-card";
+            card.innerHTML=`<img src="${v.cover}"><div class="video-info"><div class="video-title">${v.title}</div></div>`;
+            card.onclick=()=>playVideo(v);
+            box.appendChild(card);
+        });
+    }
+
+    // ======================================
+    // 投稿视频
+    // ======================================
+    function uploadVideo(){
+        if(!user){alert("请登录");return;}
+        let title=document.getElementById("upTitle").value;
+        let type=document.getElementById("upType").value;
+        let cover=document.getElementById("upCover").value;
+        let url=document.getElementById("upUrl").value;
+        if(!title||!type||!cover||!url){alert("请填写完整");return;}
+        
+        let newVid={
+            id:videos.length+1,
+            title,type,cover,url,
+            uid:user.user
+        };
+        
+        videos.push(newVid);
+        localStorage.setItem("videos",JSON.stringify(videos));
+        alert("投稿成功！");
+        render();
+        goPage("home");
+    }
+
+    // ======================================
+    // 暗黑模式
+    // ======================================
+    function toggleDark(){
+        document.body.classList.toggle("dark");
+    }
+
+    // ======================================
+    // 启动
+    // ======================================
+    window.onload=()=>{
+        render();
+        refreshUser();
+        if(user) document.getElementById("loginModal").style.display="none";
+    }
+</script>
+</body>
+</html>
