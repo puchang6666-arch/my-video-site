@@ -407,16 +407,38 @@
     let user = JSON.parse(localStorage.getItem("currentUser")) || null;
     let users = JSON.parse(localStorage.getItem("users")) || [];
     let videos = JSON.parse(localStorage.getItem("videos")) || [
-        { id:1, title:"4K风景大片", type:"电影", cover:"https://picsum.photos/400/225?1", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
-        { id:2, title:"动漫新番推荐", type:"番剧", cover:"https://picsum.photos/400/225?2", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
-        { id:3, title:"游戏攻略解说", type:"游戏", cover:"https://picsum.photos/400/225?3", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
-        { id:4, title:"美食制作教程", type:"生活", cover:"https://picsum.photos/400/225?4", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
-        { id:5, title:"旅行Vlog", type:"生活", cover:"https://picsum.photos/400/225?5", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
-        { id:6, title:"科幻短片", type:"电影", cover:"https://picsum.photos/400/225?6", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
-        { id:7, title:"城市延时摄影", type:"生活", cover:"https://picsum.photos/400/225?7", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
-        { id:8, title:"音乐MV精选", type:"电影", cover:"https://picsum.photos/400/225?8", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
-        { id:9, title:"宠物可爱瞬间", type:"生活", cover:"https://picsum.photos/400/225?9", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
-        { id:10, title:"科技产品展示", type:"游戏", cover:"https://picsum.photos/400/225?10", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 }
+let videos = JSON.parse(localStorage.getItem("videos")) || [
+{ id:1, title:"4K风景大片", type:"电影", cover:"https://picsum.photos/400/225?1", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:2, title:"动漫新番推荐", type:"番剧", cover:"https://picsum.photos/400/225?2", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:3, title:"游戏攻略解说", type:"游戏", cover:"https://picsum.photos/400/225?3", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:4, title:"美食制作教程", type:"生活", cover:"https://picsum.photos/400/225?4", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:5, title:"旅行Vlog", type:"生活", cover:"https://picsum.photos/400/225?5", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:6, title:"科幻短片", type:"电影", cover:"https://picsum.photos/400/225?6", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:7, title:"城市延时摄影", type:"生活", cover:"https://picsum.photos/400/225?7", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:8, title:"音乐MV精选", type:"电影", cover:"https://picsum.photos/400/225?8", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:9, title:"宠物可爱瞬间", type:"生活", cover:"https://picsum.photos/400/225?9", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:10, title:"科技产品展示", type:"游戏", cover:"https://picsum.photos/400/225?10", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:11, title:"健身教程", type:"生活", cover:"https://picsum.photos/400/225?11", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:12, title:"汽车评测", type:"电影", cover:"https://picsum.photos/400/225?12", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:13, title:"纪录片：大自然", type:"电影", cover:"https://picsum.photos/400/225?13", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:14, title:"搞笑短视频合集", type:"生活", cover:"https://picsum.photos/400/225?14", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:15, title:"学习教程：编程入门", type:"游戏", cover:"https://picsum.photos/400/225?15", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:16, title:"电影混剪：高能场面", type:"电影", cover:"https://picsum.photos/400/225?16", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:17, title:"时尚穿搭", type:"生活", cover:"https://picsum.photos/400/225?17", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:18, title:"运动精彩瞬间", type:"电影", cover:"https://picsum.photos/400/225?18", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:19, title:"摄影技巧", type:"生活", cover:"https://picsum.photos/400/225?19", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:20, title:"动漫精彩片段", type:"番剧", cover:"https://picsum.photos/400/225?20", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:21, title:"游戏直播精彩时刻", type:"游戏", cover:"https://picsum.photos/400/225?21", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:22, title:"美食探店", type:"生活", cover:"https://picsum.photos/400/225?22", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:23, title:"明星采访", type:"电影", cover:"https://picsum.photos/400/225?23", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:24, title:"手工制作", type:"生活", cover:"https://picsum.photos/400/225?24", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:25, title:"悬疑短片", type:"电影", cover:"https://picsum.photos/400/225?25", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:26, title:"亲子日常", type:"生活", cover:"https://picsum.photos/400/225?26", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:27, title:"电竞比赛", type:"游戏", cover:"https://picsum.photos/400/225?27", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:28, title:"舞蹈表演", type:"生活", cover:"https://picsum.photos/400/225?28", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:29, title:"历史纪录片", type:"电影", cover:"https://picsum.photos/400/225?29", url:"https://www.w3school.com.cn/i/movie.mp4" },
+{ id:30, title:"生活小技巧", type:"生活", cover:"https://picsum.photos/400/225?30", url:"https://www.w3school.com.cn/i/movie.mp4" }
+];
     ];
 
     let currentVideo = null;
