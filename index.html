@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>全能视频站 · 终极版</title>
+    <title>普昌视频站</title>
     <style>
         * {
             margin: 0;
@@ -38,7 +38,6 @@
             color: var(--text);
         }
 
-        /* 登录弹窗 */
         .modal {
             position: fixed;
             top: 0;
@@ -81,7 +80,6 @@
             cursor: pointer;
         }
 
-        /* 导航 */
         header {
             background: var(--bar);
             position: sticky;
@@ -131,7 +129,6 @@
             font-size: 14px;
         }
 
-        /* 分类 */
         .category {
             max-width: 1200px;
             margin: 15px auto;
@@ -156,14 +153,12 @@
             border-color: var(--main);
         }
 
-        /* 容器 */
         .container {
             max-width: 1200px;
             margin: auto;
             padding: 0 20px;
         }
 
-        /* 播放器 + 弹幕 */
         .player-box {
             background: var(--card);
             padding: 20px;
@@ -222,7 +217,6 @@
             cursor: pointer;
         }
 
-        /* 视频网格 */
         .video-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
@@ -254,7 +248,6 @@
             overflow: hidden;
         }
 
-        /* 评论 */
         .comment-box {
             background: var(--card);
             padding: 15px;
@@ -277,7 +270,6 @@
             border-bottom: 1px solid var(--border);
         }
 
-        /* 页面通用 */
         .page {
             display: none;
         }
@@ -286,7 +278,6 @@
             display: block;
         }
 
-        /* 个人中心 */
         .user-info {
             background: var(--card);
             padding: 20px;
@@ -294,7 +285,6 @@
             margin-bottom: 20px;
         }
 
-        /* 上传 */
         .upload-box {
             background: var(--card);
             padding: 20px;
@@ -324,7 +314,6 @@
 </head>
 <body>
 
-<!-- 登录弹窗 -->
 <div id="loginModal" class="modal">
     <div class="modal-box">
         <h3>登录 / 注册</h3>
@@ -335,10 +324,9 @@
     </div>
 </div>
 
-<!-- 导航 -->
 <header>
     <div class="nav">
-        <div class="logo" onclick="goPage('home')">📺 全能视频站</div>
+        <div class="logo" onclick="goPage('home')">🎬 普昌视频站</div>
         <div class="search">
             <input id="searchInput" placeholder="搜索视频" oninput="doSearch()">
         </div>
@@ -352,7 +340,6 @@
     </div>
 </header>
 
-<!-- 分类 -->
 <div class="category">
     <button class="active" onclick="filterCategory('全部')">全部</button>
     <button onclick="filterCategory('电影')">电影</button>
@@ -362,7 +349,6 @@
 </div>
 
 <div class="container">
-    <!-- 首页 -->
     <div id="pageHome" class="page active">
         <div class="player-box">
             <div class="player-wrapper">
@@ -390,12 +376,10 @@
         <div class="video-list" id="videoList"></div>
     </div>
 
-    <!-- 个人中心 -->
     <div id="pageUser" class="page">
         <div class="user-info">
             <h2>个人中心</h2>
             <p>用户名：<span id="showUsername"></span></p>
-            <p style="margin:10px 0">管理员：<span id="isAdmin"></span></p>
         </div>
 
         <h3>我的收藏</h3>
@@ -405,7 +389,6 @@
         <div class="video-list" id="myHistoryList"></div>
     </div>
 
-    <!-- 投稿 -->
     <div id="pageUpload" class="page">
         <div class="upload-box">
             <h2>投稿视频</h2>
@@ -418,12 +401,9 @@
     </div>
 </div>
 
-<footer>全能视频站 · 终极完整版 © 2025 本地学习版</footer>
+<footer>普昌视频站 © 2025 免费在线视频网站</footer>
 
 <script>
-    // ======================================
-    // 数据中心
-    // ======================================
     let user = JSON.parse(localStorage.getItem("currentUser")) || null;
     let users = JSON.parse(localStorage.getItem("users")) || [];
     let videos = JSON.parse(localStorage.getItem("videos")) || [
@@ -431,14 +411,17 @@
         { id:2, title:"动漫新番推荐", type:"番剧", cover:"https://picsum.photos/400/225?2", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
         { id:3, title:"游戏攻略解说", type:"游戏", cover:"https://picsum.photos/400/225?3", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
         { id:4, title:"美食制作教程", type:"生活", cover:"https://picsum.photos/400/225?4", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
+        { id:5, title:"旅行Vlog", type:"生活", cover:"https://picsum.photos/400/225?5", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
+        { id:6, title:"科幻短片", type:"电影", cover:"https://picsum.photos/400/225?6", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
+        { id:7, title:"城市延时摄影", type:"生活", cover:"https://picsum.photos/400/225?7", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
+        { id:8, title:"音乐MV精选", type:"电影", cover:"https://picsum.photos/400/225?8", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
+        { id:9, title:"宠物可爱瞬间", type:"生活", cover:"https://picsum.photos/400/225?9", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 },
+        { id:10, title:"科技产品展示", type:"游戏", cover:"https://picsum.photos/400/225?10", url:"https://www.w3school.com.cn/i/movie.mp4", uid:0 }
     ];
 
     let currentVideo = null;
     let danmakuTimer = null;
 
-    // ======================================
-    // 登录 / 注册
-    // ======================================
     function login() {
         let u = document.getElementById("loginUser").value;
         let p = document.getElementById("loginPwd").value;
@@ -469,21 +452,14 @@
     function refreshUser(){
         if(!user) return;
         document.getElementById("showUsername").innerText=user.user;
-        document.getElementById("isAdmin").innerText=user.admin?"是":"否";
     }
 
-    // ======================================
-    // 页面切换
-    // ======================================
     function goPage(p){
         document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
         document.getElementById("page"+p.charAt(0).toUpperCase()+p.slice(1)).classList.add("active");
         if(p==="user"){renderUserPage();}
     }
 
-    // ======================================
-    // 视频渲染
-    // ======================================
     function render(list=videos){
         let box = document.getElementById("videoList");
         box.innerHTML="";
@@ -496,36 +472,22 @@
         });
     }
 
-    // ======================================
-    // 播放视频 + 进度记忆 + 弹幕
-    // ======================================
     function playVideo(v){
         currentVideo=v;
         let video=document.getElementById("mainVideo");
         video.src=v.url;
         document.getElementById("currentTitle").innerText=v.title;
-        
-        // 进度记忆
         let progress=JSON.parse(localStorage.getItem("progress_"+v.id))||0;
         video.currentTime=progress;
-        
-        // 保存进度
         video.ontimeupdate=()=>{
             localStorage.setItem("progress_"+v.id,video.currentTime);
         };
-        
-        // 弹幕
         clearInterval(danmakuTimer);
         startDanmaku();
-        
-        // 评论
         renderComment();
         video.play();
     }
 
-    // ======================================
-    // 弹幕系统
-    // ======================================
     function sendDan(){
         if(!currentVideo||!user){alert("请登录后发送弹幕");return;}
         let txt=document.getElementById("danInput").value.trim();
@@ -541,7 +503,6 @@
         area.innerHTML="";
         let list=JSON.parse(localStorage.getItem("dan_"+currentVideo.id))||[];
         let video=document.getElementById("mainVideo");
-        
         danmakuTimer=setInterval(()=>{
             let t=video.currentTime;
             list.forEach(d=>{
@@ -558,9 +519,6 @@
         },200);
     }
 
-    // ======================================
-    // 点赞 / 收藏 / 历史
-    // ======================================
     function likeVideo(){
         if(!currentVideo||!user)return;
         let likes=JSON.parse(localStorage.getItem("likes"))||[];
@@ -581,9 +539,6 @@
         alert("收藏成功！");
     }
 
-    // ======================================
-    // 评论
-    // ======================================
     function sendComment(){
         if(!currentVideo||!user)return;
         let txt=document.getElementById("commentInput").value.trim();
@@ -601,9 +556,6 @@
         box.innerHTML=list.map(c=>`<div class="comment-item"><b>${c.user}</b>：${c.content}</div>`).join("");
     }
 
-    // ======================================
-    // 分类 / 搜索
-    // ======================================
     function filterCategory(t){
         document.querySelectorAll(".category button").forEach(b=>b.classList.remove("active"));
         event.target.classList.add("active");
@@ -615,16 +567,10 @@
         render(videos.filter(v=>v.title.toLowerCase().includes(kw)));
     }
 
-    // ======================================
-    // 个人中心
-    // ======================================
     function renderUserPage(){
-        // 收藏
         let favs=JSON.parse(localStorage.getItem("favs"))||[];
         let myFav=videos.filter(v=>favs.includes(user.user+"_"+v.id));
         renderList(myFav,"myFavList");
-
-        // 历史
         let history=JSON.parse(localStorage.getItem("history"))||[];
         renderList(history,"myHistoryList");
     }
@@ -641,9 +587,6 @@
         });
     }
 
-    // ======================================
-    // 投稿视频
-    // ======================================
     function uploadVideo(){
         if(!user){alert("请登录");return;}
         let title=document.getElementById("upTitle").value;
@@ -651,13 +594,11 @@
         let cover=document.getElementById("upCover").value;
         let url=document.getElementById("upUrl").value;
         if(!title||!type||!cover||!url){alert("请填写完整");return;}
-        
         let newVid={
             id:videos.length+1,
             title,type,cover,url,
             uid:user.user
         };
-        
         videos.push(newVid);
         localStorage.setItem("videos",JSON.stringify(videos));
         alert("投稿成功！");
@@ -665,16 +606,10 @@
         goPage("home");
     }
 
-    // ======================================
-    // 暗黑模式
-    // ======================================
     function toggleDark(){
         document.body.classList.toggle("dark");
     }
 
-    // ======================================
-    // 启动
-    // ======================================
     window.onload=()=>{
         render();
         refreshUser();
